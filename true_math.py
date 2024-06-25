@@ -5,7 +5,7 @@ def divide(first, second):
         return inf
     else:
         divide = first / second
-        return divide
+    return divide
 
 
 
