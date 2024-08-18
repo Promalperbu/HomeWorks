@@ -1,55 +1,78 @@
-class Figure:
-    def __init__(self, sides_count = 0, __sides, __color,  filled ):
-        self.side_count = sides_count
-        self.__sides = __sides
-        self.__color = __color
-        self.filled = filled
-    def get_color(self):
-        return __color
 
+import math
+class Figure:
+
+    def __init__(self, color, *sides,  filled=False, sides_count = 0):
+        self.side_count = sides_count
+        self.__sides = sides
+        self.__color = color
+        self.filled = filled
+
+    def get_color(self):
+        return self.__color
 
     def __is_valid_color(self, r, g, b):
-        self.r = r
-        self.g = g
-        self.b = b
-        if self.r
+        valid_values = 0 <= r <= 255 and 0 <= g <= 255 and 0 <= b <= 255
+        return valid_values
 
 
-    def set_color(self):
+    def set_color(self, r, g, b):
+        if self.__is_valid_color(r, g, b):
+            self.__color = (r, g, b)
 
-
-    def __is_valid_sides(self):
-
+#    @staticmethod
+    def __is_valid_sides(self, *sides):
+        return all(isinstance(side, int) and side > 0 for side in sides)
 
     def get_sides(self):
-
+        if self.__is_valid_sides():
+            return self.__sides
 
     def __len__(self):
+        return sum(self.__sides)
 
+    def set_sides(self, *sides):
+        if len(sides) == len(self.__sides):
+            valid_sides = []
+            for side in sides:
+                if self.__is_valid_sides(side):
+                    valid_sides.append(side)
 
-    def set_sides(self, *new_sides):
-
-
+            self.__sides = valid_sides
 class Circle(Figure):
-    def __init__(self, sides_count = 1, __radius):
-        self.side_count = sides_count
-        self.__radius = __radius
-    def get_square(self):
 
+    def __init__(self, color, sides, filled=False):
+        super().__init__(color, sides, filled=filled)
+        self.__radius = sides/ (2 * math.pi)
+
+    def get_square(self):
+        return self.__radius ** 2 / (4 * math.pi)
 
 class Triangle(Figure):
-    def __init__(self, sides_count = 3, __height):
+
+    def __init__(self, sides_count = 3, *height):
         self.side_count = sides_count
-        self.__height = __height
+        self.__height = height
+
     def get_square(self):
+        perimetr = 0
+        n = len(self.__sides)
+        for i in range(0, n - 1):
+            perimetr += i
+        return perimetr/2
 
 
 
 class Cube(Figure):
-    def __init__(self, sides_count = 12):
-        self.side_count =sides_count
+    sides_count = 12
+
+    def __init__(self, color: tuple[int, int, int], side, filled=False):
+        super().__init__(color, *([side] * 12), filled=filled)
+
+
 
     def get_volume(self):
+        return self.get_sides()[0] ** 3
 
 
 
